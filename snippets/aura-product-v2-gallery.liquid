@@ -1,0 +1,112 @@
+{%- liquid
+  assign media_count = product.media.size
+  assign image_media = product.media | where: 'media_type', 'image'
+  assign first_image = image_media.first
+  assign image_count = image_media.size
+  assign needs_gallery_script = false
+
+  if media_count > 1
+    assign needs_gallery_script = true
+  elsif section.settings.enable_fullscreen_zoom and image_count > 0
+    assign needs_gallery_script = true
+  endif
+-%}
+
+{%- if media_count > 0 -%}
+  <div
+    class="aura-product-v2__media-gallery"
+    data-aura-product-v2-gallery
+    data-enable-fullscreen="{{ section.settings.enable_fullscreen_zoom }}"
+    aria-roledescription="carousel"
+    aria-label="{{ product.title | escape }}"
+  >
+    {%- if media_count > 1 -%}
+      <div class="aura-product-v2__thumbnails" aria-label="{{ 'products.product.media.media_alt' | t: mediaAlt: product.title }}">
+        {%- for media in product.media -%}
+          {%- assign media_label = media.alt | default: product.title | default: shop.name -%}
+          <button
+            class="aura-product-v2__thumbnail{% if forloop.first %} is-active{% endif %}"
+            type="button"
+            data-aura-product-v2-thumbnail="{{ forloop.index0 }}"
+            aria-label="{{ 'products.product.media.media_alt' | t: mediaAlt: media_label }}"
+            aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+          >
+            {{ media.preview_image | image_url: width: 160 | image_tag: widths: '72,96,128,160', sizes: '(min-width: 750px) var(--aura-product-v2-thumbnail-width), 72px', loading: 'lazy', alt: media_label }}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="aura-product-v2__media-viewport" data-aura-product-v2-viewport>
+      <div class="aura-product-v2__media-track">
+        {%- for media in product.media -%}
+          {%- assign media_label = media.alt | default: product.title | default: shop.name -%}
+          {%- assign is_first_image = false -%}
+          {%- if media.id == first_image.id -%}
+            {%- assign is_first_image = true -%}
+          {%- endif -%}
+
+          <article
+            class="aura-product-v2__media-slide{% if forloop.first %} is-active{% endif %}"
+            data-aura-product-v2-slide="{{ forloop.index0 }}"
+            aria-roledescription="slide"
+            aria-label="{{ forloop.index }} {{ 'accessibility.of' | t }} {{ media_count }}"
+            {% unless forloop.first %}hidden{% endunless %}
+          >
+            <div class="aura-product-v2__media">
+              {%- case media.media_type -%}
+                {%- when 'image' -%}
+                  {%- if is_first_image -%}
+                    {{ media.preview_image | image_url: width: 1800 | image_tag: widths: '375,550,750,990,1200,1500,1800', sizes: '(min-width: 990px) 55vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: media_label }}
+                  {%- else -%}
+                    {{ media.preview_image | image_url: width: 1800 | image_tag: widths: '375,550,750,990,1200,1500,1800', sizes: '(min-width: 990px) 55vw, 100vw', loading: 'lazy', alt: media_label }}
+                  {%- endif -%}
+                {%- when 'video', 'external_video', 'model' -%}
+                  {{ media | media_tag: image_size: '1800x', controls: true, preload: 'metadata', loading: 'lazy' }}
+              {%- endcase -%}
+
+              {%- if section.settings.enable_fullscreen_zoom and media.media_type == 'image' -%}
+                <button
+                  class="aura-product-v2__fullscreen-trigger"
+                  type="button"
+                  data-aura-product-v2-fullscreen-trigger
+                  data-fullscreen-src="{{ media.preview_image | image_url: width: 2400 }}"
+                  data-fullscreen-alt="{{ media_label | escape }}"
+                  aria-label="View {{ media_label | escape }} fullscreen"
+                >
+                  <span aria-hidden="true">⤢</span>
+                </button>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if media_count > 1 and section.settings.show_image_counter -%}
+      <p class="aura-product-v2__media-counter" aria-live="polite">
+        <span data-aura-product-v2-current>1</span><span aria-hidden="true"> / </span>{{ media_count }}
+      </p>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.enable_fullscreen_zoom and image_count > 0 -%}
+    <dialog class="aura-product-v2__fullscreen-dialog" data-aura-product-v2-dialog aria-labelledby="AuraProductV2DialogTitle-{{ section.id }}">
+      <div class="aura-product-v2__fullscreen-content">
+        <h2 class="visually-hidden" id="AuraProductV2DialogTitle-{{ section.id }}">Product image viewer</h2>
+        <button class="aura-product-v2__fullscreen-close" type="button" data-aura-product-v2-dialog-close aria-label="Close fullscreen image viewer">
+          <span aria-hidden="true">×</span>
+        </button>
+        <button class="aura-product-v2__fullscreen-image-button" type="button" data-aura-product-v2-dialog-zoom aria-label="Toggle image zoom" aria-pressed="false">
+          <img data-aura-product-v2-dialog-image alt="" width="2400" height="2400" loading="eager">
+        </button>
+      </div>
+    </dialog>
+  {%- endif -%}
+{%- else -%}
+  <div class="aura-product-v2__media-empty" role="status">Product media is unavailable.</div>
+{%- endif -%}
+
+{%- if needs_gallery_script -%}
+  <script src="{{ 'aura-product-v2-gallery.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}

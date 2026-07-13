@@ -1,0 +1,183 @@
+{{ 'aura-product-v2-gallery.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="aura-product-v2"
+  style="
+    --aura-product-v2-spacing-top: {{ section.settings.spacing_top }}px;
+    --aura-product-v2-spacing-bottom: {{ section.settings.spacing_bottom }}px;
+    --aura-product-v2-column-gap: {{ section.settings.column_gap }}px;
+    --aura-product-v2-content-gap: {{ section.settings.content_gap }}px;
+    --aura-product-v2-placeholder-padding: {{ section.settings.placeholder_padding }}px;
+    --aura-product-v2-placeholder-min-height: {{ section.settings.placeholder_min_height }}px;
+    --aura-product-v2-thumbnail-width: {{ section.settings.thumbnail_width }}px;
+    --aura-product-v2-media-gap: {{ section.settings.media_gap }}px;
+    --aura-product-v2-media-radius: {{ section.settings.media_border_radius }}px;
+    --aura-product-v2-sticky-offset: {{ section.settings.sticky_gallery_offset }}px;
+  "
+  aria-label="{{ section.settings.accessible_label | escape }}"
+>
+  <div class="aura-product-v2__layout">
+    <div class="aura-product-v2__gallery" data-sticky-gallery="{{ section.settings.enable_sticky_desktop_gallery }}">
+      {% render 'aura-product-v2-gallery', product: product, section: section %}
+    </div>
+
+    <aside class="aura-product-v2__buy-box" aria-label="{{ 'Buy Box' | escape }}">
+      <article class="aura-product-v2__placeholder">
+        <h2 class="aura-product-v2__placeholder-title">{{ 'Buy Box' }}</h2>
+      </article>
+    </aside>
+  </div>
+
+  <div class="aura-product-v2__content">
+    {%- assign placeholder_names = 'Product Story|Fabric Story|Craftsmanship|Delivery|FAQ|Related Products' | split: '|' -%}
+
+    {%- for placeholder_name in placeholder_names -%}
+      <article class="aura-product-v2__placeholder">
+        <h2 class="aura-product-v2__placeholder-title">{{ placeholder_name }}</h2>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aura Product V2",
+  "tag": "section",
+  "class": "section-aura-product-v2",
+  "settings": [
+    {
+      "type": "text",
+      "id": "accessible_label",
+      "label": "Accessible label",
+      "default": "Aura Product V2"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Content gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "placeholder_padding",
+      "label": "Placeholder padding",
+      "min": 12,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "placeholder_min_height",
+      "label": "Placeholder minimum height",
+      "min": 80,
+      "max": 640,
+      "step": 20,
+      "unit": "px",
+      "default": 160
+    },
+    {
+      "type": "header",
+      "content": "Product gallery"
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_width",
+      "label": "Thumbnail width",
+      "min": 48,
+      "max": 128,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "media_gap",
+      "label": "Media gap",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "media_border_radius",
+      "label": "Media border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_desktop_gallery",
+      "label": "Enable sticky desktop gallery",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky_gallery_offset",
+      "label": "Sticky gallery top offset",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_counter",
+      "label": "Show image counter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_fullscreen_zoom",
+      "label": "Enable fullscreen zoom",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Aura Product V2"
+    }
+  ]
+}
+{% endschema %}

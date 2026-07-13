@@ -1,0 +1,157 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "background_color": "#eeeeee",
+        "text_color": "#232323",
+        "border_color": "#efc3c0",
+        "alignment": "30",
+        "mg_top_desktop": 0,
+        "mg_top_tablet": 0,
+        "mg_top_mobile": 0,
+        "mg_bottom_desktop": 0,
+        "mg_bottom_tablet": 0,
+        "mg_bottom_mobile": 0
+      }
+    },
+    "17476592499e25d855": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {
+        "include_margins": false
+      }
+    },
+    "product_tab_block_Y6zpdC": {
+      "type": "product-tab-block",
+      "blocks": {
+        "product_tabs_CH6nrE": {
+          "type": "ProductTabs",
+          "settings": {
+            "title": "Lehengas",
+            "collection": "lehenga-choli"
+          }
+        },
+        "product_tabs_D9hbWj": {
+          "type": "ProductTabs",
+          "settings": {
+            "title": "Sarees",
+            "collection": "saree"
+          }
+        },
+        "product_tabs_6kV7iJ": {
+          "type": "ProductTabs",
+          "settings": {
+            "title": "Salwar Suits",
+            "collection": "salwar-suit"
+          }
+        },
+        "product_tabs_AMxiRG": {
+          "type": "ProductTabs",
+          "settings": {
+            "title": "Men's Wear",
+            "collection": "men"
+          }
+        }
+      },
+      "block_order": [
+        "product_tabs_CH6nrE",
+        "product_tabs_D9hbWj",
+        "product_tabs_6kV7iJ",
+        "product_tabs_AMxiRG"
+      ],
+      "name": "t:sections.product_tab_block.name",
+      "settings": {
+        "container": "container",
+        "padding_full_width": 0,
+        "product_bg": "#fff",
+        "product_bg_gradient": "",
+        "product_block_layout": "grid",
+        "product_block_limit": 8,
+        "product_block_title": "Explore Other Options",
+        "fontsize_title": 16,
+        "fontsize_title_mb": 16,
+        "mg_bottom_title": 12,
+        "enable_border_title": true,
+        "border_color_title": "#232323",
+        "enable_border_title2": false,
+        "border_color_title2": "#232323",
+        "color_title": "#232323",
+        "title_align": "center",
+        "view_all_style": "style_1",
+        "view_all": "",
+        "font_weight_view_all": "400",
+        "mg_bottom_view": 30,
+        "link_view_all": "",
+        "color_view_all": "#3c3c3c",
+        "image_behavior": "none",
+        "product_block_per_row": "4",
+        "product_block_infinite_scroll": true,
+        "min_width_button": "",
+        "product_block_dots": false,
+        "product_block_dots_mb": true,
+        "product_block_arrows": true,
+        "product_block_arrows_mb": false,
+        "product_block_arrows_custom_position": false,
+        "product_block_progress_bar": false,
+        "enable_infinite": true,
+        "product_block_show": "5",
+        "product_block_per_view": "4",
+        "show_half": true,
+        "scroll_height": 4,
+        "scroll_track_bg": "#f1f1f1",
+        "scroll_thumb_color": "#000",
+        "scroll_thumb_hover_color": "#444",
+        "position": "left",
+        "width_banner": 20,
+        "tab_title_style": "style_1",
+        "layout_mobile": "grid",
+        "mg_bottom_title_tab": 24,
+        "type_tab_font": "font_1",
+        "separation": true,
+        "style_separation": "style1",
+        "color_separation": "",
+        "enable_scroll_title": true,
+        "fontsize_tab": 14,
+        "fontsize_tab_mb": 14,
+        "font_weight_tab": "700",
+        "font_weight_active_tab": "700",
+        "spacing_between_title": 24,
+        "line_height_tab": 20,
+        "line_height_tab_mobile": 24,
+        "border_tab_radius": 3,
+        "min_width_tab": 5,
+        "border_width_tab": 3,
+        "tab_align": "center",
+        "color_tab": "#232323",
+        "border_color_tab": "",
+        "bg_color_tab": "#fff",
+        "bg_color_gradient_tab": "",
+        "color_tab_active": "#232323",
+        "border_color_tab_active": "",
+        "bg_color_tab_active": "#f8f8f8",
+        "bg_color_gradient_tab_active": "",
+        "mg_top_desktop": 50,
+        "mg_top_tablet": 50,
+        "mg_top_mobile": 50,
+        "mg_bottom_desktop": 50,
+        "mg_bottom_tablet": 50,
+        "mg_bottom_mobile": 50
+      }
+    }
+  },
+  "order": [
+    "main",
+    "17476592499e25d855",
+    "product_tab_block_Y6zpdC"
+  ]
+}

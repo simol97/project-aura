@@ -1,0 +1,79 @@
+{{ 'aura-product-gallery.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'aura-product-gallery.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign media_count = product.media.size
+  assign image_ratio = section.settings.cinematic_gallery_ratio | default: 'adapt'
+  assign zoom_scale = section.settings.cinematic_gallery_zoom_scale | default: 2
+-%}
+
+<div
+  class="aura-product-gallery aura-product-gallery--{{ section.settings.cinematic_gallery_thumbnail_position | default: 'left' }} aura-product-gallery--{{ image_ratio }}"
+  data-aura-product-gallery
+  data-zoom-enabled="{{ section.settings.cinematic_gallery_hover_zoom }}"
+  data-pinch-enabled="{{ section.settings.cinematic_gallery_pinch_zoom }}"
+  data-zoom-scale="{{ zoom_scale }}"
+  tabindex="0"
+  aria-roledescription="carousel"
+>
+  {%- if media_count > 1 -%}
+    <div class="aura-product-gallery__thumbnails" aria-label="{{ 'products.product.media.media_alt' | t: mediaAlt: product.title }}">
+      {%- for media in product.media -%}
+        {%- assign media_label = media.alt | default: product.title -%}
+        <button
+          class="aura-product-gallery__thumbnail{% if forloop.first %} is-active{% endif %}"
+          type="button"
+          data-aura-gallery-thumbnail="{{ forloop.index0 }}"
+          aria-label="{{ 'products.product.media.media_alt' | t: mediaAlt: media_label }}"
+          aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+        >
+          {{ media.preview_image | image_url: width: 160 | image_tag: widths: '80,120,160', sizes: '80px', loading: 'lazy', alt: media.alt }}
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="aura-product-gallery__viewport" data-aura-gallery-viewport>
+    <div class="aura-product-gallery__track" data-aura-gallery-track>
+      {%- for media in product.media -%}
+        {%- if forloop.first -%}
+          {%- assign loading = 'eager' -%}
+        {%- else -%}
+          {%- assign loading = 'lazy' -%}
+        {%- endif -%}
+        <article
+          class="aura-product-gallery__slide{% if forloop.first %} is-active{% endif %}"
+          data-aura-gallery-slide="{{ forloop.index0 }}"
+          aria-roledescription="slide"
+          aria-label="{{ forloop.index }} {{ 'accessibility.of' | t }} {{ media_count }}"
+          {% unless forloop.first %}hidden{% endunless %}
+        >
+          <div class="aura-product-gallery__media" data-aura-gallery-media>
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                {{ media.preview_image | image_url: width: 1800 | image_tag: widths: '375,550,750,990,1200,1500,1800', sizes: '(min-width: 990px) 55vw, 100vw', loading: loading, alt: media.alt }}
+              {%- else -%}
+                {{ media | media_tag: image_size: '1800x', controls: true, preload: 'metadata' }}
+            {%- endcase -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if media_count > 1 -%}
+    <div class="aura-product-gallery__controls">
+      <button class="aura-product-gallery__control" type="button" data-aura-gallery-previous aria-label="{{ 'accessibility.previous_slide' | t }}">
+        <span aria-hidden="true">←</span>
+      </button>
+      {%- if section.settings.cinematic_gallery_show_counter -%}
+        <p class="aura-product-gallery__counter" aria-live="polite">
+          <span data-aura-gallery-current>1</span><span aria-hidden="true"> / </span>{{ media_count }}
+        </p>
+      {%- endif -%}
+      <button class="aura-product-gallery__control" type="button" data-aura-gallery-next aria-label="{{ 'accessibility.next_slide' | t }}">
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  {%- endif -%}
+</div>
